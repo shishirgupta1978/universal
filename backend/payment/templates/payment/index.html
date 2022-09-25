@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Donate Payment</h1>
+    {% if razorpay_bool == "0" %}
+      <form method="POST">
+        {% csrf_token %}
+        Enter your amount(Rs.): <input id="pymt" name="pymt" type="number" required/>
+        <input type="submit" value="pay"/>
+      </form>  
+      {% else %}
+      <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+      <script>
+
+      myFunction = function(e){
+        
+        
+            var options = {
+          "key": "{{key}}", // Enter the Key ID generated from the Dashboard
+          "amount": "{{amount}}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+          "currency": "INR",
+          "name": "Acme Corp",
+          "description": "Test Transaction",
+          "image": "https://example.com/your_logo",
+          "order_id": "{{order_id}}", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+          "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+          "prefill": {
+              "name": "Gaurav Kumar",
+              "email": "gaurav.kumar@example.com",
+              "contact": "9999999999"
+          },
+          "notes": {
+              "address": "Razorpay Corporate Office"
+          },
+          "theme": {
+              "color": "#3399cc"
+          }
+      };
+      
+
+        var rzp1 = new Razorpay(options);
+         rzp1.open();
+         e.preventDefault();
+        }
+      
+      document.addEventListener("DOMContentLoaded", myFunction);
+      </script>
+      
+    
+    {% endif %}
+
+</body>
+</html>
